@@ -1,10 +1,10 @@
 export interface ITask {
     id?: number;
-    name: string;
-    deadline: Date;
-    iscompleted: boolean;
+    name?: string;
+    deadline?: Date;
+    iscompleted?: boolean;
     userid?: number;
-    username: string;
+    username?: string;
     categoryid?: number;
-    categoryname: string;
+    categoryname?: string;
 }
