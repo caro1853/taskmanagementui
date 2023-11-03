@@ -3,14 +3,22 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { PagesModule } from './pages/pages.module';
+import { RouterModule } from '@angular/router';
+import { TaskListComponent } from './pages/task-list/task-list.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RouterModule.forRoot([           
+      { path: 'tasklist', component: TaskListComponent },
+      { path: '**', redirectTo: '/tasklist', pathMatch: 'full' }
+    ]),
+    PagesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
