@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ITask } from '../models/Itask.interface';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 
@@ -7,37 +7,38 @@ import { HttpClient, HttpHeaders} from '@angular/common/http';
   })
   export class TaskService {
 
-    pathservice: string = 'https://localhost:5001/api/v1/task';
+    pathservice: string = 'http://localhost:5264/api/v1/task';
     /**
      *
      */
     constructor(private _http: HttpClient) {
-        debugger;
+        
     }
 
-    getAllTasks(){
-        const tasks: ITask[] = [
-            {
-                id: 1,
-                name: "Create",
-                deadline: new Date(),
-                iscompleted: true,
-                userid: 50,
-                username: "Juanita",
-                categoryid: 3,
-                categoryname: "Design"
-            }
-        ];
+    getAllTasksByUser(){
+      //TODO
+      debugger;
+      const userid:number = 58;
+      const path = `${this.pathservice}/gettasksbyuser/${userid}`;
+        return this._http.get(path);
+    }
 
-        return tasks;
+    getTaskById(id:number){
+      const path = `${this.pathservice}/${id}`;
+      return this._http.get(path);
     }
 
     createTask(task: ITask){
-        debugger;
-
+        task.userid = 58;
         return this._http.post(this.pathservice, task, {
             headers: new HttpHeaders({'Access-Control-Allow-Origin':'*'})
           });
     }
+
+    updateTask(task: ITask){
+      return this._http.put(this.pathservice, task, {
+          headers: new HttpHeaders({'Access-Control-Allow-Origin':'*'})
+        });
+  }
 
   }

@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ITask } from 'src/app/models/Itask.interface';
+import { ICagegory } from 'src/app/models/category.interface';
+import { CategoryService } from 'src/app/services/category.service';
 import { TaskService } from 'src/app/services/task.service';
 
 @Component({
@@ -9,24 +11,39 @@ import { TaskService } from 'src/app/services/task.service';
   templateUrl: './task-create.component.html',
   styleUrls: ['./task-create.component.css']
 })
-export class TaskCreateComponent {
+export class TaskCreateComponent implements OnInit {
   form!: FormGroup;
-
+  categories:ICagegory[] = [];
+  showalert:boolean=false;
+  messagealert:string="Error";
+  classalert:string="";
   
   constructor(private _formBuilder: FormBuilder, private router: Router, 
-    private _taskService: TaskService) {
+    private _taskService: TaskService,
+    private _categoryService: CategoryService) {
     this.createForm();
+  }
+
+  ngOnInit(){
+    this.getAllCategories();
   }
 
   createForm() {
 
     this.form = this._formBuilder.group({
-      name: ['', [Validators.required]]
+      name: ['', [Validators.required]],
+      categoryid: [''],
+      deadline: []
     });
+  }
 
+  getAllCategories(){
+    //TODO
+    this.categories = this._categoryService.getAllCategories();
   }
 
   saveTask(){
+    debugger;
     if(this.form.invalid){
 
         Object.values(this.form.controls).forEach(control => {
@@ -39,21 +56,37 @@ export class TaskCreateComponent {
         });
       }
       else{
-        const task: ITask = {
-          name: this.form.value['name']
-        };      
-        this._taskService.createTask(task).subscribe(res=>{
-          debugger;
-        });
+        let task: ITask = {
+          name: this.form.value['name'],
+          categoryid: this.form.value['categoryid']==""?null:this.form.value['categoryid'],
+          deadline: this.form.value['deadline']??null
+        };
+        
+        this._taskService.createTask(task).subscribe({
+          next: (res)=>{  
+            this.router.navigate(['/tasklist']);
+            this.showAlert("Ok", "success");
+          },
+          error:(err)=> { 
+            this.showAlert(err.message, "danger");
+           }
+       });
       }
 
   }
 
   controlValid(namecontrol: string) {
-    //return this.form.get(namecontrol)?.invalid && this.form.get(namecontrol)?.touched;
+    return this.form.get(namecontrol)?.invalid && this.form.get(namecontrol)?.touched;
   }
 
   return() {
     this.router.navigate(['/tasklist']);
+  }
+
+  showAlert(message:string, type:string){
+    this.messagealert = message;
+    this.showalert = true;
+    this.classalert = `alert alert-${type} alert-dismissible`;
+    setTimeout(() => {  this.showalert = false; }, 2000);
   }
 }

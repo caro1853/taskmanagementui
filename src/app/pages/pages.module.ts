@@ -8,6 +8,7 @@ import { TaskCreateComponent } from './task-create/task-create.component';
 import { TaskUpdateComponent } from './task-update/task-update.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NavMenuComponent } from '../nav-menu/nav-menu.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
       PagesComponent,
       TaskCreateComponent,
       TaskUpdateComponent,
-      TaskListComponent
+      TaskListComponent,
+      NavMenuComponent
     ],
     /*exports: [
       UserCreateComponent

@@ -9,7 +9,7 @@ const pagesRoutes: Routes = [
       path: '', component: PagesComponent,
       children: [
         { path: 'taskcreate', component: TaskCreateComponent, data: { titulo: 'Creación de tareas' }/*, canActivate: [AuthGuard]*/ },
-        { path: 'taskupdate', component: TaskUpdateComponent, data: { titulo: 'Actualización de tareas' } },
+        { path: 'taskupdate/:id', component: TaskUpdateComponent, data: { titulo: 'Actualización de tareas' } },
         { path: 'tasklist', component: TaskListComponent, data: { titulo: 'Tareas disponibles' } },
         { path: '', redirectTo: '/tasklist', pathMatch: 'full' }      
       ]
