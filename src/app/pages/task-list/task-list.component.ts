@@ -1,6 +1,8 @@
 import { Component, OnInit  } from '@angular/core';
 import { Router } from '@angular/router';
 import { ITask } from 'src/app/models/Itask.interface';
+import { ICagegory } from 'src/app/models/category.interface';
+import { CategoryService } from 'src/app/services/category.service';
 import { TaskService } from 'src/app/services/task.service';
 
 @Component({
@@ -10,17 +12,27 @@ import { TaskService } from 'src/app/services/task.service';
 })
 export class TaskListComponent implements OnInit {
   tasks: ITask[];
-   
+  categories:ICagegory[] = [];
+  categoryselected:number = 0;
   /**
    *
    */
-  constructor(private router: Router, private _taskService: TaskService) {
+  constructor(private router: Router, private _taskService: TaskService,
+    private _categoryService: CategoryService) {
     this.tasks = [];
   }
 
   ngOnInit(){
     this.getAllTasksByUser();
-    //this.getAllTaskHard();
+    this.getAllCategories();
+  }
+
+  getAllCategories(){
+    this._categoryService.getAllCategories().subscribe((data:any) => {
+      if(data){
+        this.categories = data;
+      }
+    });
   }
 
   getAllTasksByUser(){
@@ -28,8 +40,25 @@ export class TaskListComponent implements OnInit {
       if(data){
         this.tasks = data;
       }
-      debugger;
     });
+  }
+
+  filtrar(){
+    if(this.categoryselected == 0){
+      this.getAllTasksByUser();
+    }
+    else {
+      this._taskService.getTasksByUserByCategory(this.categoryselected).subscribe((data:any) => {
+        if(data){
+          this.tasks = data;
+        }
+      });
+    }
+  }
+
+  limpiarfiltro(){
+    this.categoryselected = 0;
+    this.filtrar();
   }
 
   redirectNewTask(){
@@ -39,172 +68,4 @@ export class TaskListComponent implements OnInit {
   redirectUpdateTask(id:any){
     this.router.navigate(['/taskupdate', id]);
   }
-
-  getAllTaskHard(){
-    this.tasks = [
-            {
-                id: 1,
-                name: "Create",
-                deadline: new Date(),
-                iscompleted: true,
-                userid: 50,
-                username: "Juanita",
-                categoryid: 3,
-                categoryname: "Design"
-            },
-            {
-              id: 1,
-              name: "Create",
-              deadline: new Date(),
-              iscompleted: true,
-              userid: 50,
-              username: "Juanita",
-              categoryid: 3,
-              categoryname: "Design"
-          },
-          {
-            id: 1,
-            name: "Create",
-            deadline: new Date(),
-            iscompleted: true,
-            userid: 50,
-            username: "Juanita",
-            categoryid: 3,
-            categoryname: "Design"
-        },
-        {
-          id: 1,
-          name: "Create",
-          deadline: new Date(),
-          iscompleted: true,
-          userid: 50,
-          username: "Juanita",
-          categoryid: 3,
-          categoryname: "Design"
-      },
-      {
-        id: 1,
-        name: "Create",
-        deadline: new Date(),
-        iscompleted: true,
-        userid: 50,
-        username: "Juanita",
-        categoryid: 3,
-        categoryname: "Design"
-    },
-    {
-      id: 1,
-      name: "Create",
-      deadline: new Date(),
-      iscompleted: true,
-      userid: 50,
-      username: "Juanita",
-      categoryid: 3,
-      categoryname: "Design"
-  },
-  {
-    id: 1,
-    name: "Create",
-    deadline: new Date(),
-    iscompleted: true,
-    userid: 50,
-    username: "Juanita",
-    categoryid: 3,
-    categoryname: "Design"
-},
-{
-  id: 1,
-  name: "Create",
-  deadline: new Date(),
-  iscompleted: true,
-  userid: 50,
-  username: "Juanita",
-  categoryid: 3,
-  categoryname: "Design"
-},
-{
-  id: 1,
-  name: "Create",
-  deadline: new Date(),
-  iscompleted: true,
-  userid: 50,
-  username: "Juanita",
-  categoryid: 3,
-  categoryname: "Design"
-},
-{
-  id: 1,
-  name: "Create",
-  deadline: new Date(),
-  iscompleted: true,
-  userid: 50,
-  username: "Juanita",
-  categoryid: 3,
-  categoryname: "Design"
-},
-{
-  id: 1,
-  name: "Create",
-  deadline: new Date(),
-  iscompleted: true,
-  userid: 50,
-  username: "Juanita",
-  categoryid: 3,
-  categoryname: "Design"
-},
-{
-  id: 1,
-  name: "Create",
-  deadline: new Date(),
-  iscompleted: true,
-  userid: 50,
-  username: "Juanita",
-  categoryid: 3,
-  categoryname: "Design"
-},
-{
-  id: 1,
-  name: "Create",
-  deadline: new Date(),
-  iscompleted: true,
-  userid: 50,
-  username: "Juanita",
-  categoryid: 3,
-  categoryname: "Design"
-},
-{
-  id: 1,
-  name: "Create",
-  deadline: new Date(),
-  iscompleted: true,
-  userid: 50,
-  username: "Juanita",
-  categoryid: 3,
-  categoryname: "Design"
-},
-{
-  id: 1,
-  name: "Create",
-  deadline: new Date(),
-  iscompleted: true,
-  userid: 50,
-  username: "Juanita",
-  categoryid: 3,
-  categoryname: "Design"
-},
-{
-  id: 1,
-  name: "Create",
-  deadline: new Date(),
-  iscompleted: true,
-  userid: 50,
-  username: "Juanita",
-  categoryid: 3,
-  categoryname: "Design"
-}
-        ];
-  }
-
-  
-
 }

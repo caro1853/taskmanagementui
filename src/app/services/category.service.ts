@@ -1,12 +1,22 @@
 import { Injectable } from '@angular/core';
 import { ICagegory } from '../models/category.interface';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
   })
 export class CategoryService {
+    pathservice: string = 'http://localhost:5264/api/v1/category';
+
+
+    constructor(private _http: HttpClient) {
+    }
 
     getAllCategories(){
+        return this._http.get(this.pathservice);
+    }
+
+    /*getAllCategories(){
         const categories: ICagegory[] = [
             {
                 id: 1,
@@ -42,5 +52,5 @@ export class CategoryService {
             }
         ];
         return categories;
-    }
+    }*/
 }

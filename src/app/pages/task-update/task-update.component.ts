@@ -57,14 +57,17 @@ export class TaskUpdateComponent implements OnInit {
   }
 
   getAllCategories(){
-    //TODO
-    this.categories = this._categoryService.getAllCategories();
+    this._categoryService.getAllCategories().subscribe((data:any) => {
+      if(data){
+        this.categories = data;
+      }
+    });
   }
 
   setValuesForm() {
     this.form.setValue({
       name: this.task.name,
-      categoryid: this.task.categoryid??'',
+      categoryid: this.getCategoryid(),
       deadline: this.task.deadlineview??'',
       iscompleted: this.task.iscompleted??''
     });
@@ -73,10 +76,15 @@ export class TaskUpdateComponent implements OnInit {
   createForm(){
     this.form = this._formBuilder.group({
       name: [this.task.name, [Validators.required, Validators.minLength(5)]],
-      categoryid: [this.task.categoryid],
+      categoryid: [this.getCategoryid()],
       deadline: [this.task.deadlineview],
       iscompleted: [this.task.iscompleted]
     });
+  }
+
+  getCategoryid(){
+    debugger;
+    return this.task.category != null ? this.task.category.id: '';
   }
 
   controlValid(namecontrol: string) {
@@ -98,27 +106,27 @@ export class TaskUpdateComponent implements OnInit {
         }
       });
     } else {
+      //Map
       let task: ITask = {
         id: this.taskid,
         name: this.form.value['name'],
-        categoryid: this.form.value['categoryid'] == '' ? null : this.form.value['categoryid'],
-        deadline: this.form.value['deadline']??null,
+        categoryid : this.form.value['categoryid'] == '' ? null : this.form.value['categoryid'],
+        deadline: this.form.value['deadline'] == '' ? null : this.form.value['deadline'],
         iscompleted: this.form.value['iscompleted'] == '' ? null : this.form.value['iscompleted']
-      };
-
+      }; 
       this._taskService.updateTask(task).subscribe({
         next: (res)=>{  
-          debugger;
           this.showAlert("Ok", "success");
         },
         error:(err)=> { 
-          debugger;
           this.showAlert(err.message, "danger");
          }
      });
 
     }
   }
+
+ 
 
   showAlert(message:string, type:string){
     this.messagealert = message;

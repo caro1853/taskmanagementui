@@ -5,6 +5,21 @@
       <i class="fas fa-plus"></i> Nueva tarea
     </button>
 </p>
+
+<nav class="navbar bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand">Filtrar por Categoría</a>
+    <div class="d-flex" role="search">
+      <select class="form-select mb-4" [(ngModel)]="categoryselected">
+        <option value="0">Todas</option>
+        <option *ngFor="let category of categories; let i=index" [value]="category.id">{{ category.name }}</option>
+      </select>
+      <button class="btn btn-outline-success mb-4" (click)="filtrar()">Filtrar</button>
+      <button class="btn btn-outline-success mb-4" (click)="limpiarfiltro()">Limpiar</button>
+    </div>
+  </div>
+</nav>
+
 <table class="table">
     <thead>
       <tr>
@@ -13,14 +28,14 @@
         <th scope="col">Categoría</th>
         <th scope="col">Fecha límte</th>
         <th scope="col">Es Completada</th>
-        <th scope="col">Acciones</th>
+        <th scope="col">Editar</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let task of tasks; let i=index">
         <th scope="row">{{ i + 1 }} </th>
         <td>{{ task.name }}</td>
-        <td>{{ task.categoryname }}</td>
+        <td>{{ task.category?.name }}</td>
         <td>{{ task.deadline | date }}</td>
         <td>{{ task.iscompleted }} </td>
         <td>

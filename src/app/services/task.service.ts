@@ -20,7 +20,14 @@ import { HttpClient, HttpHeaders} from '@angular/common/http';
       debugger;
       const userid:number = 58;
       const path = `${this.pathservice}/gettasksbyuser/${userid}`;
-        return this._http.get(path);
+      return this._http.get(path);
+    }
+
+    getTasksByUserByCategory(categoryid:number){
+      //TODO
+      const userid:number = 58;
+      const path = `${this.pathservice}/gettasksbyuser/${userid}/category/${categoryid}`;
+      return this._http.get(path);
     }
 
     getTaskById(id:number){
@@ -36,6 +43,7 @@ import { HttpClient, HttpHeaders} from '@angular/common/http';
     }
 
     updateTask(task: ITask){
+
       return this._http.put(this.pathservice, task, {
           headers: new HttpHeaders({'Access-Control-Allow-Origin':'*'})
         });

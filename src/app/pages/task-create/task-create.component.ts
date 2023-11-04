@@ -38,8 +38,11 @@ export class TaskCreateComponent implements OnInit {
   }
 
   getAllCategories(){
-    //TODO
-    this.categories = this._categoryService.getAllCategories();
+    this._categoryService.getAllCategories().subscribe((data:any) => {
+      if(data){
+        this.categories = data;
+      }
+    });
   }
 
   saveTask(){
@@ -56,11 +59,16 @@ export class TaskCreateComponent implements OnInit {
         });
       }
       else{
+        //Map
         let task: ITask = {
           name: this.form.value['name'],
-          categoryid: this.form.value['categoryid']==""?null:this.form.value['categoryid'],
           deadline: this.form.value['deadline']??null
         };
+        if(this.form.value['categoryid'] != ''){
+          task.category = {
+            id: this.form.value['categoryid']
+          };
+        }
         
         this._taskService.createTask(task).subscribe({
           next: (res)=>{  

@@ -1,3 +1,5 @@
+import { ICagegory } from "./category.interface";
+
 export interface ITask {
     id?: number;
     name?: string;
@@ -6,6 +8,6 @@ export interface ITask {
     iscompleted?: boolean;
     userid?: number;
     username?: string;
-    categoryid?: number;
-    categoryname?: string;
+    category?:ICagegory
+    categoryid?:number;
 }

@@ -1,4 +1,4 @@
 export interface ICagegory {
     id: number;
-    name: string;
+    name?: string;
 }
