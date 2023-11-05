@@ -49,3 +49,8 @@
   </table>
   
   <hr />
+
+  <div [ngClass]="classalert" role="alert" *ngIf="showalert">
+    {{messagealert}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>

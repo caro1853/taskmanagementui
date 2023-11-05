@@ -46,7 +46,6 @@ export class TaskCreateComponent implements OnInit {
   }
 
   saveTask(){
-    debugger;
     if(this.form.invalid){
 
         Object.values(this.form.controls).forEach(control => {
@@ -72,7 +71,7 @@ export class TaskCreateComponent implements OnInit {
         
         this._taskService.createTask(task).subscribe({
           next: (res)=>{  
-            this.router.navigate(['/tasklist']);
+            this.router.navigate(['/pages/tasklist']);
             this.showAlert("Ok", "success");
           },
           error:(err)=> { 
@@ -88,7 +87,7 @@ export class TaskCreateComponent implements OnInit {
   }
 
   return() {
-    this.router.navigate(['/tasklist']);
+    this.router.navigate(['/pages/tasklist']);
   }
 
   showAlert(message:string, type:string){

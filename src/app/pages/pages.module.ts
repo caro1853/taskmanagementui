@@ -19,9 +19,6 @@ import { NavMenuComponent } from '../nav-menu/nav-menu.component';
       TaskListComponent,
       NavMenuComponent
     ],
-    /*exports: [
-      UserCreateComponent
-    ],*/
     imports: [ 
       PAGES_ROUTES,
       ReactiveFormsModule,

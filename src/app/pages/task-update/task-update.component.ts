@@ -83,7 +83,6 @@ export class TaskUpdateComponent implements OnInit {
   }
 
   getCategoryid(){
-    debugger;
     return this.task.category != null ? this.task.category.id: '';
   }
 
@@ -92,7 +91,7 @@ export class TaskUpdateComponent implements OnInit {
   }
 
   return() {
-    this.router.navigate(['/tasklist']);
+    this.router.navigate(['/pages/tasklist']);
   }
 
   saveTask(){

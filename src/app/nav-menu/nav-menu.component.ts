@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 //import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -9,10 +10,7 @@ import { Router } from '@angular/router';
 })
 export class NavMenuComponent {
 
-  role = '';
-
-  constructor(/*private _loginService: LoginService,*/ private _router: Router) {
-    //this.role = this._loginService.getRol();
+  constructor(private _router: Router, private _loginService: LoginService) {
   }
 
   isExpanded = false;
@@ -26,7 +24,7 @@ export class NavMenuComponent {
   }
 
   exitSesion() {
-    //this._loginService.closeSesion();
-    //this._router.navigate(['/login']);
+    this._loginService.closeSesion();
+    this._router.navigate(['/auth/login']);
   }
 }

@@ -20,15 +20,8 @@
           [ngClass]="{ show: isExpanded }"
         >
           <ul class="navbar-nav flex-grow">
-            <li
-              class="nav-item"
-              [routerLinkActive]="['link-active']"
-              [routerLinkActiveOptions]="{ exact: true }"
-            >
-              <a class="nav-link" [routerLink]="['/']">Inicio</a>
-            </li>
-            <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="role === 'A'">
-              <a class="nav-link" [routerLink]="['/tasklist']">Tareas</a
+            <li class="nav-item" [routerLinkActive]="['link-active']">
+              <a class="nav-link" [routerLink]="['/pages/tasklist']">Tareas</a
               >
             </li>
             <li class="nav-item" [routerLinkActive]="['link-active']">

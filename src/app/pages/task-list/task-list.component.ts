@@ -14,6 +14,10 @@ export class TaskListComponent implements OnInit {
   tasks: ITask[];
   categories:ICagegory[] = [];
   categoryselected:number = 0;
+
+  showalert:boolean=false;
+  messagealert:string="Error";
+  classalert:string="";
   /**
    *
    */
@@ -36,9 +40,17 @@ export class TaskListComponent implements OnInit {
   }
 
   getAllTasksByUser(){
-    this._taskService.getAllTasksByUser().subscribe((data:any) => {
-      if(data){
-        this.tasks = data;
+    this._taskService.getAllTasksByUser().subscribe({
+      next: (data:any) => {
+        if(data){
+          this.tasks = data;
+        }
+      },
+      error: (err) => {
+        if(err?.status == 401){
+          this.showAlert('Usuario No autorizado', 'danger', true);
+        }
+        debugger;
       }
     });
   }
@@ -62,10 +74,22 @@ export class TaskListComponent implements OnInit {
   }
 
   redirectNewTask(){
-    this.router.navigate(['/taskcreate']);
+    this.router.navigate(['/pages/taskcreate']);
   }
 
   redirectUpdateTask(id:any){
-    this.router.navigate(['/taskupdate', id]);
+    this.router.navigate(['/pages/taskupdate', id]);
+  }
+
+  showAlert(message:string, type:string, redirectLogin:boolean = false){
+    this.messagealert = message;
+    this.showalert = true;
+    this.classalert = `alert alert-${type} alert-dismissible`;
+    setTimeout(() => {  
+      this.showalert = false;
+      if(redirectLogin == true){
+        this.router.navigate(['/auth/login']);
+      }
+    }, 3000);
   }
 }

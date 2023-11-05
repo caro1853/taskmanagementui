@@ -3,24 +3,31 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PagesModule } from './pages/pages.module';
 import { RouterModule } from '@angular/router';
-import { TaskListComponent } from './pages/task-list/task-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    RouterModule.forRoot([           
-      { path: 'tasklist', component: TaskListComponent },
-      { path: '**', redirectTo: '/tasklist', pathMatch: 'full' }
+    FormsModule,
+    RouterModule.forRoot([  
+      { 
+        path: 'pages', 
+        loadChildren: () => import('./pages/pages.module').then(m=> m.PagesModule)
+      },  
+      {
+        path: 'auth',
+        loadChildren: () => import("./auth/auth.module").then(m => m.AuthModule)
+      },      
+      { path: '**', redirectTo: 'auth', pathMatch: 'full' }
     ]),
-    PagesModule
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
