@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { environment } from 'src/environments/environment';
 @Injectable({
     providedIn: 'root'
   })
 export class CategoryService {
-    pathservice: string = 'http://localhost:5264/api/v1/category';
+    controller: string = 'category';
+    pathservice: string = '';
 
     constructor(private _http: HttpClient) {
+        this.pathservice = `${environment.baseURLmanagementAPI}/${this.controller}`;
+        console.log({pathservice: this.pathservice});
     }
 
     getAllCategories(){

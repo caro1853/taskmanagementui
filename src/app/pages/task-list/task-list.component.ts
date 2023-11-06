@@ -18,6 +18,9 @@ export class TaskListComponent implements OnInit {
   showalert:boolean=false;
   messagealert:string="Error";
   classalert:string="";
+
+  messagemodal:string = '';
+  taskidselecttodelete:number = 0;
   /**
    *
    */
@@ -55,6 +58,24 @@ export class TaskListComponent implements OnInit {
     });
   }
 
+  deleteTaskById(){
+    this._taskService.deleteTaskById(this.taskidselecttodelete).subscribe({
+      next: () => {
+        this.taskidselecttodelete = 0;
+        this.filtrar();
+      },
+      error: (err) => {
+        if(err?.status == 401){
+          this.showAlert('Usuario No autorizado', 'danger', true);
+        }
+        else
+        {
+          this.showAlert(err?.message, 'danger', true);
+        }
+      }
+    });
+  }
+
   filtrar(){
     if(this.categoryselected == 0){
       this.getAllTasksByUser();
@@ -79,6 +100,11 @@ export class TaskListComponent implements OnInit {
 
   redirectUpdateTask(id:any){
     this.router.navigate(['/pages/taskupdate', id]);
+  }
+
+  setInfoModal(taskid:any,taskname:any){
+    this.taskidselecttodelete = taskid;
+    this.messagemodal = `Se eliminará la tarea con nombre ${taskname}`;
   }
 
   showAlert(message:string, type:string, redirectLogin:boolean = false){

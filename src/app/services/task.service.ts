@@ -2,15 +2,19 @@ import { Injectable } from '@angular/core';
 import { ITask } from '../models/Itask.interface';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { LoginService } from './login.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
   })
   export class TaskService {
 
-    pathservice: string = 'http://localhost:5264/api/v1/task';
+    controller: string = 'task';
+    pathservice: string = '';
     
     constructor(private _http: HttpClient, private _loginService: LoginService) { 
+      this.pathservice = `${environment.baseURLmanagementAPI}/${this.controller}`;
+      console.log({pathservice: this.pathservice});
     }
 
     getAllTasksByUser(){
@@ -51,6 +55,14 @@ import { LoginService } from './login.service';
     updateTask(task: ITask){
       const token = this.getTokenSaved();
       return this._http.put(this.pathservice, task, {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + token })
+      });
+    }
+
+    deleteTaskById(id:number){
+      const token = this.getTokenSaved();
+      const path = `${this.pathservice}/${id}`;
+      return this._http.delete(path, {
         headers: new HttpHeaders({ 'Authorization': 'Bearer ' + token })
       });
     }
